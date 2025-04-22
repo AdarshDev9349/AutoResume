@@ -1,12 +1,37 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Resume Page with GitHub Data
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **GitHub Data Fetching**: Displays the GitHub user's profile and pinned repositories by fetching data from the GitHub API.
+- **User Profile**: Shows the user's avatar, bio, email, location, company, website, Twitter, and GitHub profile link.
+- **Pinned Repositories**: Displays the user's pinned repositories along with details like description, language, stars, and a link to the repository on GitHub.
+- **PDF Download**: Allows the user to download the resume as a PDF.
+- **Responsive Design**: The layout adapts to different screen sizes for both desktop and mobile views.
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/your-username/resume-page.git
+   cd resume-page
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+
+   ```bash
+   npm start
+   ```
+
+   The application will be available at `http://localhost:3000`.
+
+4. **Navigate to a resume page**: 
+
+   Open the browser and go to `http://localhost:3000/resume/:username`, replacing `:username` with a valid GitHub username (e.g., `/resume/octocat`).
