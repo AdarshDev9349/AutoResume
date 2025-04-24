@@ -13,6 +13,10 @@ function Home() {
 
   return (
     <div className="font-sans p-8 bg-gray-100 min-h-screen">
+      <a href="http://localhost:5000/auth/linkedin">
+  <button>Login with LinkedIn</button>
+</a>
+
       <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">GitHub Resume Generator</h1>
         <p className="text-gray-700 mb-2">Enter your GitHub username:</p>
