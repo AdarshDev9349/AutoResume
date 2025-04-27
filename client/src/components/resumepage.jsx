@@ -28,8 +28,12 @@ function ResumePage() {
 
   const handlePrint = useReactToPrint({
     documentTitle: `${username}-github-resume`,
-    onBeforeGetContent: () => new Promise((resolve) => setTimeout(resolve, 500)),
-    content: () => resumeRef.current,
+    onBeforeGetContent: () => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
+    },
+    contentRef: resumeRef,
     removeAfterPrint: true,
     pageStyle: `
       @page {
