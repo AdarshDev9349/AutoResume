@@ -8,7 +8,7 @@ export default function Homepp() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white flex flex-col justify-between relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white flex flex-col gap-28 md:justify-between relative overflow-hidden">
       
       {/* Pixelated Background Effect */}
       <div className="absolute inset-0 bg-[url('/path-to-your-pixelated-background.png')] bg-cover opacity-10 pointer-events-none" />
@@ -67,14 +67,14 @@ export default function Homepp() {
       </nav>
 
       {/* Hero Section */}
-      <main className="flex flex-col items-center text-center md:mb-40 md:mt-28 mb-20 max-w-3xl mx-auto px-4 relative z-10">
+      <main className="flex flex-col  items-center text-center md:mb-40 md:mt-2 mb-20 max-w-3xl mx-auto px-4 relative z-10">
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-6xl font-extrabold leading-tight text-white bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
         >
-          Launch Your Career<br className="hidden md:block" />With A GitHub-Powered Resume.
+          Launch Your Career<br className="hidden md:block" /> With A GitHub-Powered Resume.
         </motion.h1>
 
         <motion.p 
