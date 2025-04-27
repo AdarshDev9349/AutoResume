@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import ResumePage from "./components/resumepage";
 import Home from "./components/homepage";
-import PrintStyles from "./print";
+
 import Homepp from "./components/landing";
 
 
@@ -12,7 +12,7 @@ function App() {
   
   return (
     <Router>
-            <PrintStyles/>
+
       <Routes>
   
         <Route path="/" element={<Homepp />} />

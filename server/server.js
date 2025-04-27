@@ -18,7 +18,7 @@ const restliClient = new RestliClient();
 // Step 1: Show login link
 app.get('/', (req, res) => {
   const authUrl = authClient.generateMemberAuthorizationUrl(
-    ['openid', 'profile', 'email'], // ✅ OpenID scopes only
+    ['openid', 'profile', 'email'], 
     'somerandomstate'
   );
   res.send(`<a href="${authUrl}">Sign in with LinkedIn</a>`);
