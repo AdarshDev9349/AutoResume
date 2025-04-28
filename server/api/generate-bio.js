@@ -1,14 +1,23 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
+  // Handle OPTIONS method first
+  if (req.method === "OPTIONS") {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.status(200).end(); // Options requests should return 200 OK with empty body
+  }
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, company, location, website, twitter, skills, projects, email, githubProfile } = req.body;
+  const { name, company, location, website, twitter, skills, projects } = req.body;
 
   if (!name || !skills || !projects) {
     return res.status(400).json({ error: "Missing required fields." });
@@ -27,7 +36,7 @@ Projects: ${projects.slice(0, 3).join("; ")}
 
 Make the bio first person, ATS friendly, sound genuine, passionate about coding, mention some technologies if appropriate and don't include contact details.
 It should be maximum 3-4 sentences, also avoid links and usernames in the bio.
-  `;
+`;
 
   try {
     const response = await axios.post(

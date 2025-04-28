@@ -40,7 +40,7 @@ async function generateBioFromGitHubData(githubData) {
     });
 
     const data = await response.json();
-    return data.bio; // Assuming your backend sends { bio: "..." }
+    return data.bio; 
   } catch (error) {
     console.error('Failed to generate bio:', error);
     return null;
