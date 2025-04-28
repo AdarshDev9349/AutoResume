@@ -1,5 +1,5 @@
 
-const SERVER_URL = 'https://auto-resume-api.vercel.app/api'; 
+const SERVER_URL = 'http://localhost:3000'; 
 
 async function generateBioFromGitHubData(githubData) {
   console.log('Generating bio from GitHub data:', githubData);
