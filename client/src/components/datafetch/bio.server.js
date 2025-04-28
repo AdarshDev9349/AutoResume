@@ -1,10 +1,8 @@
-
 const SERVER_URL = 'https://auto-resume-api.vercel.app/api/generate-bio'; 
 
 async function generateBioFromGitHubData(githubData) {
   console.log('Generating bio from GitHub data:', githubData);
   if (!githubData) return null;
-
 
   const techStack = new Set();
   const projectSummaries = [];
@@ -28,12 +26,10 @@ async function generateBioFromGitHubData(githubData) {
     twitter: githubData.twitterUsername,
     skills: skills,
     projects: projectSummaries,
-    email: githubData.email,
-    githubProfile: githubData.profileUrl,
   };
 
   try {
-    const response = await fetch(`${SERVER_URL}`, {
+    const response = await fetch(SERVER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyForAI),

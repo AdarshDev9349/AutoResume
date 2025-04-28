@@ -1,20 +1,20 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
-  // Handle OPTIONS method first
+  // Always set CORS headers FIRST
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // Handle OPTIONS request immediately
   if (req.method === "OPTIONS") {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    return res.status(200).end(); // Options requests should return 200 OK with empty body
+    res.status(200).end();
+    return;
   }
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    res.status(405).json({ error: "Method not allowed" });
+    return;
   }
 
   const { name, company, location, website, twitter, skills, projects } = req.body;
@@ -23,7 +23,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing required fields." });
   }
 
-  const prompt = `
+  try {
+    const prompt = `
 Write a professional and friendly bio for a developer's resume.
 
 Name: ${name}
@@ -38,7 +39,6 @@ Make the bio first person, ATS friendly, sound genuine, passionate about coding,
 It should be maximum 3-4 sentences, also avoid links and usernames in the bio.
 `;
 
-  try {
     const response = await axios.post(
       "https://api.together.xyz/v1/chat/completions",
       {
@@ -56,6 +56,7 @@ It should be maximum 3-4 sentences, also avoid links and usernames in the bio.
 
     const bio = response.data.choices[0].message.content.trim();
     res.status(200).json({ bio });
+
   } catch (error) {
     console.error(error.response?.data || error.message);
     res.status(500).json({ error: "Failed to generate bio." });
