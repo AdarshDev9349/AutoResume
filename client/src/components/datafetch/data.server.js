@@ -42,6 +42,7 @@ async function fetchGitHubData(username) {
   const json = await res.json();
   const user = json.data.user;
 
+
   if (!user) return null;
 
   return {
@@ -59,3 +60,5 @@ async function fetchGitHubData(username) {
 }
 
 export default fetchGitHubData;
+
+

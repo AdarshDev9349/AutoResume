@@ -3,6 +3,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import fetchGitHubData from "./datafetch/data.server";
+import { generateBioFromGitHubData } from "./datafetch/bio.server";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReactToPrint } from "react-to-print";
 
@@ -13,6 +14,7 @@ function ResumePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [additionalInfo, setAdditionalInfo] = useState({
     phone: "",
+    bio: "",
     education: [],
     educationInput: { degree: "", institution: "", year: "" },
     workExperience: "",
@@ -22,9 +24,38 @@ function ResumePage() {
     achievements: "",
   });
 
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isProjectAvailable, setIsProjectAvailable] = useState(false);
   const resumeRef = useRef(null);
+
+  const generatebio = async () => {
+    const githubdata = await fetchGitHubData(username);
+  
+    if (!githubdata) {
+      console.error("Failed to fetch GitHub data.");
+      return;
+    }
+  
+    console.log("✅ GitHub Data:", githubdata);
+  
+    const aiGeneratedBio = await generateBioFromGitHubData(githubdata);
+  
+    console.log("✅ AI Generated Bio:", aiGeneratedBio);
+  
+    if (aiGeneratedBio) {
+      // ✨ Update the 'bio' field inside additionalInfo
+      handleInputChange({
+        target: {
+          name: 'bio',
+          value: aiGeneratedBio,
+        },
+      });
+    }
+  };
+  
+  
+
 
   const handlePrint = useReactToPrint({
     documentTitle: `${username}-github-resume`,
@@ -184,7 +215,26 @@ function ResumePage() {
                   />
                 </div>
               </details>
-              
+              <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
+                <summary className="cursor-pointer text-gray-200 font-medium p-4">Your Bio</summary>
+                <div className="p-4">
+                  <textarea
+                    name="bio"
+                    value={additionalInfo.bio}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter your work experience"
+                    rows="4"
+                  />
+                   <button
+                      type="button"
+                      onClick={generatebio}
+                      className="bg-gradient-to-r from-[#6a11cb] via-[#2575fc] to-[#6a11cb] hover:scale-105 transform transition-all text-white px-6 py-3 rounded-full text-sm focus:outline-none"
+                    >
+                      Generate
+                    </button>
+                </div>
+              </details>
                  {/* Education */}
                  <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
                 <summary className="cursor-pointer text-gray-200 font-medium p-4">Education</summary>
@@ -285,6 +335,7 @@ function ResumePage() {
                     placeholder="Enter your work experience"
                     rows="4"
                   />
+
                 </div>
               </details>
 
@@ -397,6 +448,15 @@ function ResumePage() {
                     </p>
                   </div>
                 </motion.div>
+                <section className="mt-6">
+                  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
+                   
+                  </h2>
+                  <p>
+                    {additionalInfo.bio ||
+                      "No bio provided."}
+                  </p>
+                </section>
 
                 {/* Education */}
                 <section className="mt-6">
@@ -505,9 +565,14 @@ function ResumePage() {
               background: white !important;
               font-family: "Inter", "Helvetica", "Arial", sans-serif !important;
               font-size: 11pt !important;
-              line-height: 1.4 !important;
+              line-height: 1.2 !important;
               color: black !important;
             }
+              h2{
+              
+              font-size: 20px !important;
+              
+              }
 
             @page {
               size: auto;

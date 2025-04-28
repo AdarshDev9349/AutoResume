@@ -1,26 +1,18 @@
-import express from "express";
-import dotenv from "dotenv";
 import axios from "axios";
-import cors from "cors";
 
-dotenv.config();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-const app = express();
-app.use(express.json());
-app.use(cors());
-
-const PORT = process.env.PORT || 3000;
-
-app.post("/generate-bio", async (req, res) => {
   const { name, company, location, website, twitter, skills, projects, email, githubProfile } = req.body;
-  
 
   if (!name || !skills || !projects) {
     return res.status(400).json({ error: "Missing required fields." });
   }
 
   const prompt = `
-Write a professional and friendly  bio for a developer's resume.
+Write a professional and friendly bio for a developer's resume.
 
 Name: ${name}
 ${company ? `Company: ${company}` : ""}
@@ -29,11 +21,9 @@ ${website ? `Website: ${website}` : ""}
 ${twitter ? `Twitter: ${twitter}` : ""}
 Skills: ${skills.join(", ")}
 Projects: ${projects.slice(0, 3).join("; ")}
-Email: ${email || "N/A"}
-GitHub: ${githubProfile}
 
-Make the bio first person ,ATS friendly,sound genuine, passionate about coding, mention some technologies if appropriate and dont include contact details.
-It should be maximum 3-4 sentences also avoid links and usernames in the bio.
+Make the bio first person, ATS friendly, sound genuine, passionate about coding, mention some technologies if appropriate and don't include contact details.
+It should be maximum 3-4 sentences, also avoid links and usernames in the bio.
   `;
 
   try {
@@ -46,24 +36,16 @@ It should be maximum 3-4 sentences also avoid links and usernames in the bio.
       },
       {
         headers: {
-          "Authorization": `Bearer ${process.env.TOGETHER_API_KEY}`,
+          Authorization: `Bearer ${process.env.TOGETHER_API_KEY}`,
           "Content-Type": "application/json",
         },
       }
     );
 
     const bio = response.data.choices[0].message.content.trim();
-    res.json({ bio });
+    res.status(200).json({ bio });
   } catch (error) {
     console.error(error.response?.data || error.message);
     res.status(500).json({ error: "Failed to generate bio." });
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("Bio Generator Server is running!");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+}
