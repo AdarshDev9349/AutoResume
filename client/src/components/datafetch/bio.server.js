@@ -1,5 +1,5 @@
 
-const SERVER_URL = 'https://auto-resume-api.vercel.app/api'; 
+const SERVER_URL = 'https://auto-resume-api.vercel.app/api/generate-bio'; 
 
 async function generateBioFromGitHubData(githubData) {
   console.log('Generating bio from GitHub data:', githubData);
@@ -33,7 +33,7 @@ async function generateBioFromGitHubData(githubData) {
   };
 
   try {
-    const response = await fetch(`${SERVER_URL}/generate-bio`, {
+    const response = await fetch(`${SERVER_URL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyForAI),
