@@ -1,9 +1,9 @@
 "use client";
-
+import fetchGitHubData from "../../datafetch/data.server";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import fetchGitHubData from "./datafetch/data.server";
-import { generateBioFromGitHubData } from "./datafetch/bio.server";
+
+import { generateBioFromGitHubData } from "../../datafetch/bio.server";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReactToPrint } from "react-to-print";
 
@@ -25,7 +25,7 @@ function ResumePage() {
   });
 
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProjectAvailable, setIsProjectAvailable] = useState(false);
   const resumeRef = useRef(null);
 
@@ -188,10 +188,10 @@ function ResumePage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
       {/* Sidebar */}
-      <div className={`${isSidebarOpen ? "w-full md:w-1/3" : "w-20"} bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] transition-all duration-300 shadow-lg flex flex-col`}>
+      <div className={`${isSidebarOpen ? "w-10/11 md:w-1/3" : "w-20"} md:relative absolute z-14 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] transition-all duration-300 shadow-lg flex flex-col`}>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className={`bg-blue-600 text-white p-2 my-6 rounded-md hover:bg-blue-700 transition-all duration-300 ${isSidebarOpen ? "w-1/4 mx-4 self-end" : "w-12 self-center"}`}
+          className={` bg-blue-600 text-white p-2 my-6 rounded-md hover:bg-blue-700 transition-all duration-300 ${isSidebarOpen ? "w-1/4 mx-4 self-end " : "w-12 absolute left-6 z-11 self-center"}`}
         >
           {isSidebarOpen ? "<" : ">"}
         </button>
@@ -372,7 +372,7 @@ function ResumePage() {
           </div>
         )}
       </div>
-      <div className="relative z-10 w-full max-w-4xl mx-auto p-4 md:p-8 grid grid-cols-1  gap-8">
+      <div className="relative mt-18 md:mt-0 z-10 w-full max-w-4xl mx-auto p-4 md:p-8 grid grid-cols-1  gap-8">
         <div className="bg-white  shadow-2xl overflow-hidden" ref={resumeRef}>
           {notfound ? (
             <h2 className="text-red-600 text-center p-6 text-lg font-semibold">
