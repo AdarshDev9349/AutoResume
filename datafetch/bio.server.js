@@ -45,7 +45,7 @@ Email: ${bodyForAI.email || "N/A"}
 GitHub: ${bodyForAI.githubProfile}
 
 Make the bio first person, ATS friendly, sound genuine, passionate about coding, mention some technologies if appropriate and dont include contact details.
-It should be maximum 3-4 sentences also avoid links and usernames in the bio.
+It should be maximum 3-4 sentences.Don't use links or username in the bio.
 `;
 
   try {
