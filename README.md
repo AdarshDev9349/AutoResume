@@ -1,13 +1,18 @@
-
-# Resume Page with GitHub Data
+# Resume Builder with GitHub Integration
 
 ## Features
 
-- **GitHub Data Fetching**: Displays the GitHub user's profile and pinned repositories by fetching data from the GitHub API.
-- **User Profile**: Shows the user's avatar, bio, email, location, company, website, Twitter, and GitHub profile link.
-- **Pinned Repositories**: Displays the user's pinned repositories along with details like description, language, stars, and a link to the repository on GitHub.
-- **PDF Download**: Allows the user to download the resume as a PDF.
-- **Responsive Design**: The layout adapts to different screen sizes for both desktop and mobile views.
+- **GitHub Data Fetching**: Automatically fetches and displays a GitHub user's profile and repositories, including pinned repositories.
+- **Customizable Resume Sections**: Add, edit, and remove Education, Work Experience, Projects, Skills, Achievements, and Bio directly from the sidebar.
+- **Smart Input Forms**: Each section (Education, Projects, Work Experience, Skills, Achievements) uses intuitive, multi-field forms for structured data entry.
+- **Project Management**: View both GitHub-fetched and custom-added projects. Remove any project (including fetched ones) from your resume with a single click.
+- **Skill & Achievement Management**: Add skills and achievements as tags/lists and remove them instantly.
+- **PDF Download**: Download your resume as a professionally formatted PDF.
+- **Responsive Design**: Fully responsive layout for desktop and mobile devices.
+- **Sidebar Navigation**: Collapsible sidebar for easy access to all resume sections and quick editing.
+- **Live Preview**: Instantly see your resume updates as you edit information.
+- **Bio Generator**: Generate a professional bio with a single click.
+- **Dark Mode UI**: Modern, dark-themed interface for comfortable editing.
 
 ## Setup
 
@@ -32,6 +37,3 @@
 
    The application will be available at `http://localhost:3000`.
 
-4. **Navigate to a resume page**: 
-
-   Open the browser and go to `http://localhost:3000/resume/:username`, replacing `:username` with a valid GitHub username (e.g., `/resume/octocat`).
