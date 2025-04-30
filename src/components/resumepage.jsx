@@ -17,11 +17,14 @@ function ResumePage() {
     bio: "",
     education: [],
     educationInput: { degree: "", institution: "", year: "" },
-    workExperience: "",
+    workExperience: [], // now an array
+    workExperienceInput: { title: "", company: "", duration: "", description: "" },
     projects: [],
     projectInput: { name: "", description: "", url: "" },
-    skills: "",
-    achievements: "",
+    skills: [],
+    skillInput: "",
+    achievements: [],
+    achievementInput: "",
   });
 
 
@@ -188,7 +191,7 @@ function ResumePage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
       {/* Sidebar */}
-      <div className={`${isSidebarOpen ? "w-10/11 md:w-1/3" : "w-20"} md:relative absolute z-14 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] transition-all duration-300 shadow-lg flex flex-col`}>
+      <div className={`${isSidebarOpen ? "w-10/11 md:w-1/3" : "w-20"} md:relative absolute z-14 bg-gradient-to-r from-[#0f0c29]  via-[#302b63] to-[#24243e] transition-all duration-300 shadow-lg flex flex-col`}>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className={` bg-blue-600 text-white p-2 my-6 rounded-md hover:bg-blue-700 transition-all duration-300 ${isSidebarOpen ? "w-1/4 mx-4 self-end " : "w-12 absolute left-6 z-11 self-center"}`}
@@ -322,52 +325,231 @@ function ResumePage() {
                   </div>
                 </div>
               </details>
-
-              {/* Work Experience */}
-              <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
-                <summary className="cursor-pointer text-gray-200 font-medium p-4">Work Experience</summary>
-                <div className="p-4">
-                  <textarea
-                    name="workExperience"
-                    value={additionalInfo.workExperience}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Enter your work experience"
-                    rows="4"
-                  />
-
+          
+            {/* Work Experience */}
+            <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
+              <summary className="cursor-pointer text-gray-200 font-medium p-4">Work Experience</summary>
+              <div className="p-4 space-y-3">
+                <input
+                  type="text"
+                  placeholder="Job Title"
+                  value={additionalInfo.workExperienceInput?.title || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      workExperienceInput: {
+                        ...prev.workExperienceInput,
+                        title: e.target.value,
+                      },
+                    }))
+                  }
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Company"
+                  value={additionalInfo.workExperienceInput?.company || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      workExperienceInput: {
+                        ...prev.workExperienceInput,
+                        company: e.target.value,
+                      },
+                    }))
+                  }
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Duration"
+                  value={additionalInfo.workExperienceInput?.duration || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      workExperienceInput: {
+                        ...prev.workExperienceInput,
+                        duration: e.target.value,
+                      },
+                    }))
+                  }
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <textarea
+                  placeholder="Description"
+                  value={additionalInfo.workExperienceInput?.description || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      workExperienceInput: {
+                        ...prev.workExperienceInput,
+                        description: e.target.value,
+                      },
+                    }))
+                  }
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  rows="2"
+                />
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const input = additionalInfo.workExperienceInput || {};
+                      if (input.title && input.company && input.duration) {
+                        setAdditionalInfo(prev => ({
+                          ...prev,
+                          workExperience: [
+                            ...(Array.isArray(prev.workExperience) ? prev.workExperience : []),
+                            input,
+                          ],
+                          workExperienceInput: { title: "", company: "", duration: "", description: "" },
+                        }));
+                      }
+                    }}
+                    className="bg-gradient-to-r from-[#6a11cb] via-[#2575fc] to-[#6a11cb] hover:scale-105 transform transition-all text-white px-6 py-3 rounded-full text-sm focus:outline-none"
+                  >
+                    Add Experience
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setAdditionalInfo(prev => ({
+                        ...prev,
+                        workExperience: (Array.isArray(prev.workExperience) ? prev.workExperience : []).slice(0, -1),
+                      }))
+                    }
+                    className="bg-gradient-to-r from-[#ff6a00] via-[#ffcc00] to-[#ff6a00] hover:scale-105 transform transition-all text-white px-6 py-3 rounded-full text-sm focus:outline-none"
+                  >
+                    Remove Last
+                  </button>
                 </div>
-              </details>
+              </div>
+            </details>
 
-              {/* Skills */}
-              <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
-                <summary className="cursor-pointer text-gray-200 font-medium p-4">Skills</summary>
-                <div className="p-4">
-                  <input
-                    type="text"
-                    name="skills"
-                    value={additionalInfo.skills}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Enter your skills (comma-separated)"
-                  />
+            {/* Skills */}
+            <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
+              <summary className="cursor-pointer text-gray-200 font-medium p-4">Skills</summary>
+              <div className="p-4">
+                <input
+                  type="text"
+                  placeholder="Add a skill and press Enter"
+                  value={additionalInfo.skillInput || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      skillInput: e.target.value,
+                    }))
+                  }
+                  onKeyDown={e => {
+                    if (e.key === "Enter" && additionalInfo.skillInput?.trim()) {
+                      setAdditionalInfo(prev => ({
+                        ...prev,
+                        skills: [
+                          ...(Array.isArray(prev.skills) ? prev.skills : prev.skills ? prev.skills.split(",") : []),
+                          prev.skillInput.trim(),
+                        ],
+                        skillInput: "",
+                      }));
+                      e.preventDefault();
+                    }
+                  }}
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {(Array.isArray(additionalInfo.skills)
+                    ? additionalInfo.skills
+                    : additionalInfo.skills
+                    ? additionalInfo.skills.split(",")
+                    : []
+                  ).map((skill, idx) => (
+                    <span
+                      key={idx}
+                      className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                    >
+                      {skill}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setAdditionalInfo(prev => ({
+                            ...prev,
+                            skills: (Array.isArray(prev.skills) ? prev.skills : prev.skills.split(",")).filter(
+                              (s, i) => i !== idx
+                            ),
+                          }))
+                        }
+                        className="text-white hover:text-red-500"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
                 </div>
-              </details>
+              </div>
+            </details>
 
-              {/* Achievements */}
-              <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
-                <summary className="cursor-pointer text-gray-200 font-medium p-4">Achievements and Interests</summary>
-                <div className="p-4">
-                  <textarea
-                    name="achievements"
-                    value={additionalInfo.achievements}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Enter your achievements and interests"
-                    rows="4"
-                  />
-                </div>
-              </details>
+            {/* Achievements */}
+            <details className="border border-gray-600 rounded-lg bg-[#2d2d3a]">
+              <summary className="cursor-pointer text-gray-200 font-medium p-4">Achievements and Interests</summary>
+              <div className="p-4">
+                <input
+                  type="text"
+                  placeholder="Add an achievement and press Enter"
+                  value={additionalInfo.achievementInput || ""}
+                  onChange={e =>
+                    setAdditionalInfo(prev => ({
+                      ...prev,
+                      achievementInput: e.target.value,
+                    }))
+                  }
+                  onKeyDown={e => {
+                    if (e.key === "Enter" && additionalInfo.achievementInput?.trim()) {
+                      setAdditionalInfo(prev => ({
+                        ...prev,
+                        achievements: [
+                          ...(Array.isArray(prev.achievements)
+                            ? prev.achievements
+                            : prev.achievements
+                            ? prev.achievements.split(",")
+                            : []),
+                          prev.achievementInput.trim(),
+                        ],
+                        achievementInput: "",
+                      }));
+                      e.preventDefault();
+                    }
+                  }}
+                  className="w-full border border-gray-600 rounded-lg p-4 bg-[#2d2d3a] text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <ul className="mt-4 list-disc list-inside space-y-2">
+                  {(Array.isArray(additionalInfo.achievements)
+                    ? additionalInfo.achievements
+                    : additionalInfo.achievements
+                    ? additionalInfo.achievements.split(",")
+                    : []
+                  ).map((achievement, idx) => (
+                    <li key={idx} className="text-gray-300 flex items-center gap-2">
+                      {achievement}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setAdditionalInfo(prev => ({
+                            ...prev,
+                            achievements: (Array.isArray(prev.achievements)
+                              ? prev.achievements
+                              : prev.achievements.split(",")
+                            ).filter((a, i) => i !== idx),
+                          }))
+                        }
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        &times;
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+
             </form>
           </div>
         )}
@@ -491,70 +673,144 @@ function ResumePage() {
                   )}
                 </section>
 
-                {/* Work Experience */}
                 <section className="mt-6">
-                  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
-                    Work Experience
-                  </h2>
-                  <p>
-                    {additionalInfo.workExperience ||
-                      "No work experience provided."}
-                  </p>
-                </section>
+  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
+    Work Experience
+  </h2>
+  {Array.isArray(additionalInfo.workExperience) && additionalInfo.workExperience.length > 0 ? (
+    <ul className="list-disc list-inside space-y-2">
+      <AnimatePresence>
+        {additionalInfo.workExperience.map((exp, idx) => (
+          <motion.li
+            key={idx}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="text-base"
+          >
+            <span className="font-semibold">{exp.title}</span>
+            {exp.company && <> at <span className="font-medium">{exp.company}</span></>}
+            {exp.duration && <> — <span>{exp.duration}</span></>}
+            {exp.description && (
+              <div className="text-gray-600 text-sm mt-1">{exp.description}</div>
+            )}
+          </motion.li>
+        ))}
+      </AnimatePresence>
+    </ul>
+  ) : (
+    <p className="text-gray-500">No work experience provided.</p>
+  )}
+</section>
 
-                {/* Skills */}
-                <section className="mt-6">
-                  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
-                    Skills
-                  </h2>
-                  <p>{additionalInfo.skills || "No skills provided."}</p>
-                </section>
 
-                {/* Achievements */}
-                <section className="mt-6">
-                  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
-                    Achievements and Interests
-                  </h2>
-                  <p>
-                    {additionalInfo.achievements || "No achievements provided."}
-                  </p>
-                </section>
 
-                {/* Pinned Projects */}
-                {/* Pinned Projects */}
-                <section className="mt-6">
-                  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
-                    Projects
-                  </h2>
-                  {isProjectAvailable || additionalInfo.projects.length > 0 ? (
-                    <div className="space-y-4">
-                      {/* Combine GitHub projects and additional projects */}
-                      {[
-                        ...(userData.projects || []),
-                        ...additionalInfo.projects,
-                      ].map((repo, index) => (
-                        <div key={index}>
-                          <h3 className="text-lg font-semibold">{repo.name}</h3>
-                          <p className="text-sm text-gray-700 mb-1">
-                            {repo.description || "No description provided."}
-                          </p>
-                          {repo.url && (
-                            <a
-                              href={repo.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-blue-600 text-sm underline"
-                            >
-                              {repo.url}
-                            </a>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-gray-500">No projects found.</p>
-                  )}
-                </section>
+{/* Skills */}
+<section className="mt-6">
+  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
+    Skills
+  </h2>
+  {Array.isArray(additionalInfo.skills) && additionalInfo.skills.length > 0 ? (
+    <ul className="flex flex-wrap gap-2">
+      {additionalInfo.skills.map((skill, idx) => (
+        <li
+          key={idx}
+          className=" px-3 py-1 rounded-full text-m"
+        >
+          {skill}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-500">No skills provided.</p>
+  )}
+</section>
+
+{/* Achievements */}
+<section className="mt-6">
+  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
+    Achievements and Interests
+  </h2>
+  {Array.isArray(additionalInfo.achievements) && additionalInfo.achievements.length > 0 ? (
+    <ul className="list-disc list-inside space-y-1">
+      {additionalInfo.achievements.map((ach, idx) => (
+        <li key={idx} className="text-gray-700">{ach}</li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-500">No achievements provided.</p>
+  )}
+</section>
+
+
+<section className="mt-6">
+  <h2 className="text-2xl font-bold text-black border-b pb-2 mb-4">
+    Projects
+  </h2>
+  {isProjectAvailable || additionalInfo.projects.length > 0 ? (
+    <div className="space-y-4">
+      {/* Combine GitHub projects and additional projects */}
+      {[
+        ...(userData.projects || []).map((repo, index) => ({
+          ...repo,
+          _isGithub: true,
+          _index: index,
+        })),
+        ...additionalInfo.projects.map((repo, index) => ({
+          ...repo,
+          _isGithub: false,
+          _index: index,
+        })),
+      ].map((repo, index) => (
+        <div key={index} className="flex items-start gap-2">
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold">{repo.name}</h3>
+            <p className="text-sm text-gray-700 mb-1">
+              {repo.description || "No description provided."}
+            </p>
+            {repo.url && (
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 text-sm underline"
+              >
+                {repo.url}
+              </a>
+            )}
+          </div>
+          {/* Show delete button for both fetched and additional projects */}
+          <button
+            type="button"
+            className="ml-2 text-red-500 hover:text-red-700 text-lg print:hidden font-bold"
+            onClick={() => {
+              if (repo._isGithub) {
+                // Remove from userData.projects
+                setUserData(prev => ({
+                  ...prev,
+                  projects: prev.projects.filter((_, i) => i !== repo._index),
+                }));
+              } else {
+                // Remove from additionalInfo.projects
+                setAdditionalInfo(prev => ({
+                  ...prev,
+                  projects: prev.projects.filter((_, i) => i !== repo._index),
+                }));
+              }
+            }}
+            title="Remove Project"
+          >
+            &times;
+          </button>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-500">No projects found.</p>
+  )}
+</section>
+
               </div>
             </>
           ) : null}
